@@ -1,0 +1,225 @@
+.tray {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 12px 12px 0;
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scrollbar-width: thin;
+  cursor: default;
+}
+
+.item {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  flex-shrink: 0;
+  min-width: 0;
+}
+
+.imageItem {
+  width: 64px;
+}
+
+.fileItem {
+  max-width: 240px;
+}
+
+.imageBody,
+.fileBody {
+  display: flex;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  border: 1px solid var(--dsw-alias-border-l2);
+  border-radius: var(--dsw-radius-lg);
+  background: var(--dsw-alias-bg-layer-2);
+  font: inherit;
+  color: inherit;
+  text-align: left;
+}
+
+button.imageBody,
+button.fileBody {
+  cursor: pointer;
+  transition: background-color var(--ds-transition-duration) var(--ds-ease-in-out);
+}
+
+button.imageBody:hover,
+button.fileBody:hover {
+  background: var(--dsw-alias-interactive-bg-hover);
+}
+
+button.imageBody:focus-visible,
+button.fileBody:focus-visible {
+  outline: 2px solid var(--dsw-alias-brand-primary);
+  outline-offset: 2px;
+}
+
+.imageBody {
+  width: 64px;
+  height: 64px;
+  overflow: hidden;
+}
+
+.fileBody {
+  align-items: center;
+  gap: 8px;
+  width: 220px;
+  min-height: 64px;
+  padding: 8px 10px;
+}
+
+.fileItem .fileBody {
+  padding-right: 26px;
+}
+
+.thumb {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.cardIcon {
+  display: flex;
+  flex-shrink: 0;
+  color: var(--dsw-alias-label-tertiary);
+}
+
+.cardText {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.cardName {
+  overflow: hidden;
+  font: var(--dsw-font-markdown-small);
+  color: var(--dsw-alias-label-primary);
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.cardSize {
+  overflow: hidden;
+  font: var(--dsw-font-xs-13);
+  color: var(--dsw-alias-label-tertiary);
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.failed .imageBody,
+.failed .fileBody {
+  border-color: var(--dsw-alias-state-error-primary);
+}
+
+.progress {
+  position: relative;
+  height: 4px;
+  overflow: hidden;
+  border-radius: var(--dsw-radius-xs);
+  background: var(--dsw-alias-bg-skeleton);
+}
+
+.progressFill {
+  display: block;
+  height: 100%;
+  background: var(--dsw-alias-brand-primary);
+  transition: width var(--ds-transition-duration) linear;
+}
+
+.errorRow {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  min-width: 0;
+}
+
+.errorText {
+  overflow: hidden;
+  flex: 1;
+  font: var(--dsw-font-xs-13);
+  color: var(--dsw-alias-state-error-primary);
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.retry {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 20px;
+  height: 20px;
+  padding: 0;
+  border: none;
+  border-radius: 50%;
+  background: transparent;
+  color: var(--dsw-alias-state-error-primary);
+  cursor: pointer;
+}
+
+.retry:hover {
+  background: var(--dsw-alias-interactive-bg-hover-danger);
+}
+
+.retry:focus-visible,
+.remove:focus-visible {
+  outline: 2px solid var(--dsw-alias-brand-primary);
+  outline-offset: 1px;
+}
+
+/* 删除按钮悬浮显现；失败时常显，提示需要先删掉 */
+.remove {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  padding: 0;
+  border: none;
+  border-radius: 50%;
+  background: var(--dsw-alias-button-contrast-fill);
+  color: var(--dsw-alias-label-primary-inverted);
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity var(--ds-transition-duration) var(--ds-ease-in-out);
+}
+
+.remove svg {
+  width: 12px;
+  height: 12px;
+}
+
+.item:hover .remove,
+.item:focus-within .remove {
+  opacity: 1;
+}
+
+.removeAlways {
+  opacity: 1;
+  background: var(--dsw-alias-state-error-primary);
+  color: var(--dsw-alias-label-primary-foreground);
+}
+
+/* 触屏没有 hover，删除按钮常显 */
+@media (hover: none) {
+  .remove {
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .progressFill,
+  .remove,
+  button.imageBody,
+  button.fileBody {
+    transition: none;
+  }
+}

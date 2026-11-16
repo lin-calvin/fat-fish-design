@@ -1,0 +1,85 @@
+/* 空态：内容居中、最大宽度受控，不主动占满父容器高度。 */
+.root {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  box-sizing: border-box;
+  padding: 40px 24px;
+  text-align: center;
+  color: var(--dsw-alias-label-primary);
+}
+
+.icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 4px;
+  color: var(--dsw-alias-label-tertiary);
+}
+
+.icon > svg {
+  display: block;
+}
+
+.title {
+  margin: 0;
+  font-family: var(--dsw-font-family);
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 24px;
+}
+
+.description {
+  max-width: 42ch;
+  margin: 0;
+  color: var(--dsw-alias-label-secondary);
+  font-family: var(--dsw-font-family);
+  font-size: var(--ds-font-size-m);
+  line-height: 22px;
+}
+
+.items {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.item {
+  box-sizing: border-box;
+  height: var(--ds-control-height-s);
+  padding: 0 12px;
+  border: 1px solid var(--dsw-alias-border-l2);
+  border-radius: var(--dsw-radius-lg);
+  background: var(--dsw-specific-selector);
+  color: var(--dsw-alias-label-primary);
+  font-family: var(--dsw-font-family);
+  font-size: 13px;
+  line-height: 20px;
+  cursor: pointer;
+  transition:
+    background-color var(--ds-transition-duration) var(--ds-ease-in-out),
+    border-color var(--ds-transition-duration) var(--ds-ease-in-out);
+}
+
+.item:hover {
+  background: var(--dsw-alias-interactive-bg-hover);
+}
+
+.item:active {
+  background: var(--dsw-alias-interactive-bg-active);
+}
+
+.item:focus-visible {
+  outline: 2px solid var(--dsw-alias-brand-primary);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .item {
+    transition: none;
+  }
+}

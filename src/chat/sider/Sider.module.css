@@ -1,0 +1,199 @@
+.sider {
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  box-sizing: border-box;
+  width: 261px;
+  height: 100%;
+  padding: 8px 12px 0;
+  border-right: 1px solid var(--dsw-alias-border-l1);
+  background-color: var(--dsw-specific-sidebar-fill);
+}
+
+.top {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+  gap: 8px;
+  box-sizing: border-box;
+  height: 48px;
+  margin-bottom: 8px;
+}
+
+.newChat {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 1 1 auto;
+  gap: 6px;
+  box-sizing: border-box;
+  min-width: 0;
+  height: 40px;
+  padding: 0 12px;
+  border: 1px solid var(--dsw-alias-border-l2);
+  border-radius: var(--dsw-radius-xl);
+  background-color: var(--dsw-alias-bg-layer-3);
+  color: var(--dsw-alias-label-primary);
+  font: inherit;
+  font-size: var(--ds-font-size-m);
+  font-weight: 500;
+  white-space: nowrap;
+  cursor: pointer;
+  user-select: none;
+  transition: background-color var(--ds-transition-duration) var(--ds-ease-in-out);
+}
+
+.newChat:hover {
+  background-color: var(--dsw-specific-sidebar-nav-item-hover);
+}
+
+.newChat:focus-visible {
+  outline: 2px solid var(--dsw-alias-button-primary-fill);
+  outline-offset: 1px;
+}
+
+.newChatIcon {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  color: var(--dsw-alias-label-secondary);
+}
+
+.newChatLabel {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.iconButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  box-sizing: border-box;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  border: none;
+  border-radius: var(--dsw-radius-sm);
+  background: none;
+  color: var(--dsw-alias-label-secondary);
+  cursor: pointer;
+  transition: background-color var(--ds-transition-duration) var(--ds-ease-in-out);
+}
+
+.iconButton:hover {
+  background-color: var(--dsw-alias-interactive-bg-hover);
+  color: var(--dsw-alias-label-primary);
+}
+
+.iconButton:focus-visible {
+  outline: 2px solid var(--dsw-alias-button-primary-fill);
+  outline-offset: 1px;
+}
+
+.list {
+  flex: 1 1 auto;
+  min-height: 0;
+  margin: 0 -4px;
+  padding: 0 4px 8px;
+  overflow-x: hidden;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: var(--scroll-color) transparent;
+}
+
+.section {
+  margin-top: 12px;
+}
+
+.section:first-child {
+  margin-top: 0;
+}
+
+.sectionHeader {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  padding: 4px 8px;
+  font-size: 12px;
+  line-height: 18px;
+  font-weight: 500;
+  color: var(--dsw-alias-label-tertiary);
+  background-color: var(--dsw-specific-sidebar-fill);
+  user-select: none;
+}
+
+.empty {
+  padding: 12px 8px;
+  font-size: 13px;
+  line-height: 20px;
+  color: var(--dsw-alias-label-tertiary);
+}
+
+.footer {
+  flex-shrink: 0;
+  padding: 8px 0 12px;
+}
+
+.collapsedSider {
+  align-items: center;
+  width: 60px;
+  padding: 8px 8px 0;
+}
+
+.collapsedStack {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex-shrink: 0;
+  gap: 8px;
+  padding-top: 8px;
+}
+
+.collapsedButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  border: 1px solid var(--dsw-alias-border-l2);
+  border-radius: var(--dsw-radius-md);
+  background-color: var(--dsw-alias-bg-layer-3);
+  color: var(--dsw-alias-label-secondary);
+  cursor: pointer;
+  transition:
+    background-color var(--ds-transition-duration) var(--ds-ease-in-out),
+    color var(--ds-transition-duration) var(--ds-ease-in-out);
+}
+
+.collapsedButton:hover {
+  background-color: var(--dsw-alias-interactive-bg-hover);
+  color: var(--dsw-alias-label-primary);
+}
+
+.collapsedButton:focus-visible {
+  outline: 2px solid var(--dsw-alias-button-primary-fill);
+  outline-offset: 1px;
+}
+
+.collapsedFooter {
+  display: flex;
+  justify-content: center;
+  flex-shrink: 0;
+  box-sizing: border-box;
+  width: 100%;
+  margin-top: auto;
+  padding: 8px 0 12px;
+  overflow: hidden;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .newChat,
+  .iconButton,
+  .collapsedButton {
+    transition: none;
+  }
+}

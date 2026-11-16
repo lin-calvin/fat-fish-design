@@ -1,0 +1,83 @@
+.iconButton {
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  width: 28px;
+  height: 28px;
+  padding: 0;
+  border: none;
+  border-radius: var(--dsw-radius-sm);
+  background-color: transparent;
+  color: var(--dsw-alias-label-tertiary);
+  font: inherit;
+  cursor: pointer;
+  transition:
+    color var(--ds-transition-duration) var(--ds-ease-in-out),
+    background-color var(--ds-transition-duration) var(--ds-ease-in-out);
+}
+
+.iconButton:hover:not(:disabled) {
+  color: var(--dsw-alias-label-primary);
+  background-color: var(--dsw-alias-interactive-bg-hover);
+}
+
+.iconButton:active:not(:disabled) {
+  background-color: var(--dsw-alias-interactive-bg-active);
+}
+
+.iconButton:focus-visible {
+  outline: 2px solid var(--dsw-alias-brand-primary);
+  outline-offset: 1px;
+}
+
+.iconButton:disabled {
+  color: var(--dsw-alias-label-caption);
+  cursor: default;
+}
+
+.textButton {
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  box-sizing: border-box;
+  height: 28px;
+  padding: 0 10px;
+  border: 1px solid var(--dsw-alias-border-l2);
+  border-radius: var(--dsw-radius-xl);
+  background-color: transparent;
+  color: var(--dsw-alias-label-secondary);
+  font: var(--dsw-font-xs-13);
+  cursor: pointer;
+  transition:
+    color var(--ds-transition-duration) var(--ds-ease-in-out),
+    background-color var(--ds-transition-duration) var(--ds-ease-in-out),
+    border-color var(--ds-transition-duration) var(--ds-ease-in-out);
+}
+
+.textButton:hover:not(:disabled) {
+  color: var(--dsw-alias-label-primary);
+  border-color: var(--dsw-alias-border-l3);
+  background-color: var(--dsw-alias-interactive-bg-hover);
+}
+
+.textButton:focus-visible {
+  outline: 2px solid var(--dsw-alias-brand-primary);
+  outline-offset: 1px;
+}
+
+.textButton:disabled {
+  color: var(--dsw-alias-label-caption);
+  cursor: default;
+}
+
+.textIcon {
+  display: inline-flex;
+}
+
+.textLabel {
+  white-space: nowrap;
+}

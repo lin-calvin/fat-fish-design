@@ -1,0 +1,115 @@
+/* 原生 dialog 负责顶层与 inert；这里只管居中、去 UA 外观与 ::backdrop 样式。 */
+.dialog {
+  position: fixed;
+  inset: 0;
+  box-sizing: border-box;
+  width: fit-content;
+  height: fit-content;
+  max-width: calc(100vw - 32px);
+  max-height: calc(100dvh - 64px);
+  margin: auto;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--dsw-alias-label-primary);
+  overflow: visible;
+}
+
+.dialog:focus {
+  outline: none;
+}
+
+.dialog::backdrop {
+  background: color-mix(in srgb, var(--dsw-static-neutral-bluish-1000) 44%, transparent);
+  backdrop-filter: blur(2px);
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  max-width: 100%;
+  max-height: calc(100dvh - 64px);
+  border-radius: var(--dsw-radius-lg);
+  background: var(--dsw-alias-bg-layer-2);
+  box-shadow: var(--dsw-shadow-lv3);
+  overflow: hidden;
+}
+
+.card[data-size='sm'] {
+  width: 360px;
+}
+
+.card[data-size='md'] {
+  width: 480px;
+}
+
+.card[data-size='lg'] {
+  width: 640px;
+}
+
+.header {
+  display: flex;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 18px 20px 12px 24px;
+}
+
+.title {
+  min-width: 0;
+  margin: 0;
+  font: var(--dsw-font-markdown-h4);
+  line-height: 24px;
+  color: var(--dsw-alias-label-primary);
+}
+
+.close {
+  display: inline-flex;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: center;
+  width: var(--ds-control-height-xs);
+  height: var(--ds-control-height-xs);
+  padding: 0;
+  border: 0;
+  border-radius: var(--dsw-radius-sm);
+  color: var(--dsw-alias-label-tertiary);
+  background: transparent;
+  cursor: pointer;
+  outline: none;
+}
+
+.close svg {
+  width: 16px;
+  height: 16px;
+}
+
+.close:hover {
+  color: var(--dsw-alias-label-primary);
+  background: var(--dsw-alias-interactive-bg-hover);
+}
+
+.close:focus-visible {
+  outline: 2px solid var(--dsw-alias-brand-primary);
+  outline-offset: 2px;
+}
+
+.body {
+  flex: 1 1 auto;
+  min-height: 0;
+  padding: 0 24px;
+  overflow-y: auto;
+  font-size: var(--ds-font-size-m);
+  line-height: 22px;
+  color: var(--dsw-alias-label-secondary);
+}
+
+.footer {
+  display: flex;
+  flex: 0 0 auto;
+  justify-content: flex-end;
+  gap: 8px;
+  padding: 20px 24px;
+}

@@ -1,0 +1,31 @@
+.checkbox {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--dsw-font-family);
+  font-size: var(--ds-font-size-m);
+  line-height: 20px;
+  color: var(--dsw-alias-label-primary);
+  cursor: pointer;
+  user-select: none;
+}
+
+.input {
+  flex: 0 0 auto;
+  width: 16px;
+  height: 16px;
+  margin: 0;
+  border-radius: var(--dsw-radius-xs);
+  accent-color: var(--dsw-alias-brand-primary);
+  cursor: inherit;
+}
+
+.input:focus-visible {
+  outline: 2px solid var(--dsw-alias-brand-primary);
+  outline-offset: 2px;
+}
+
+.checkbox:has(.input:disabled) {
+  color: var(--dsw-alias-label-caption);
+  cursor: not-allowed;
+}

@@ -1,0 +1,97 @@
+/* 轻提示：固定在视口底部居中，栈式排布；只让提示本体接收指针事件，不挡页面。 */
+.viewport {
+  position: fixed;
+  inset-inline: 0;
+  bottom: 40px;
+  z-index: var(--dsw-z-toast);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 0 16px;
+  pointer-events: none;
+}
+
+.toast {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  box-sizing: border-box;
+  max-width: min(560px, calc(100vw - 32px));
+  padding: 10px 16px;
+  border-inline-start: 2px solid transparent;
+  border-radius: var(--dsw-radius-md);
+  background: var(--dsw-alias-toast-bg);
+  color: var(--dsw-alias-label-primary-foreground);
+  box-shadow: var(--dsw-shadow-lv3);
+  font-family: var(--dsw-font-family);
+  font-size: var(--ds-font-size-m);
+  line-height: 22px;
+  word-break: break-word;
+  pointer-events: auto;
+  animation: toast-in 180ms var(--ds-ease-in-out);
+}
+
+.text {
+  min-width: 0;
+}
+
+.link {
+  flex: none;
+  color: inherit;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  border-radius: var(--dsw-radius-xs);
+}
+
+.link:hover {
+  text-decoration-thickness: 2px;
+}
+
+.link:focus-visible {
+  outline: 2px solid var(--dsw-alias-label-primary-foreground);
+  outline-offset: 2px;
+}
+
+.info {
+  border-inline-start-color: transparent;
+}
+
+.success {
+  border-inline-start-color: var(--dsw-static-green-400);
+}
+
+.error {
+  border-inline-start-color: var(--dsw-alias-state-error-secondary);
+}
+
+/* 退场：进入过渡结束后由 Provider 打上 leaving，过渡完再卸载 */
+.leaving {
+  opacity: 0;
+  transform: translateY(8px);
+  transition:
+    opacity 160ms var(--ds-ease-in-out),
+    transform 160ms var(--ds-ease-in-out);
+}
+
+@keyframes toast-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .toast {
+    animation: none;
+  }
+
+  .leaving {
+    transition: none;
+    transform: none;
+  }
+}

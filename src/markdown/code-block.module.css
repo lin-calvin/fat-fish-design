@@ -1,0 +1,139 @@
+.block {
+  margin: 12px 0;
+  border: 1px solid var(--dsw-alias-border-l2);
+  border-radius: var(--dsw-radius-md);
+  background: var(--dsw-alias-markdown-code-block);
+  overflow: hidden;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  min-height: 30px;
+  padding: 0 10px;
+  border-bottom: 1px solid var(--dsw-alias-border-l1);
+  background: var(--dsw-alias-markdown-code-block-banner);
+}
+
+.lang {
+  color: var(--dsw-alias-label-tertiary);
+  font-size: 12px;
+  line-height: 18px;
+  user-select: none;
+}
+
+.copy {
+  height: 22px;
+  padding: 0 8px;
+  border: 1px solid transparent;
+  border-radius: var(--dsw-radius-xs);
+  background: transparent;
+  color: var(--dsw-alias-label-secondary);
+  font: inherit;
+  font-size: 12px;
+  line-height: 20px;
+  cursor: pointer;
+}
+
+.copy:hover {
+  background: var(--dsw-alias-interactive-bg-hover);
+  color: var(--dsw-alias-label-primary);
+}
+
+.copy:focus-visible {
+  outline: 2px solid var(--dsw-alias-button-primary-fill);
+  outline-offset: 1px;
+}
+
+/* 两个类选择器打赢 .ds-markdown pre 的 (0,1,1) 特异性 */
+.block .pre {
+  margin: 0;
+  padding: 12px 14px;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  overflow: auto;
+  color: var(--dsw-syntax-plain);
+  font: var(--dsw-font-markdown-code-block);
+}
+
+.block .pre .code {
+  display: block;
+  padding: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  white-space: pre;
+  tab-size: 2;
+}
+
+.block :global(.token.comment),
+.block :global(.token.prolog),
+.block :global(.token.doctype),
+.block :global(.token.cdata) {
+  color: var(--dsw-syntax-comment);
+}
+
+.block :global(.token.keyword),
+.block :global(.token.boolean),
+.block :global(.token.important) {
+  color: var(--dsw-syntax-keyword);
+}
+
+.block :global(.token.string),
+.block :global(.token.char),
+.block :global(.token.regex),
+.block :global(.token.inserted) {
+  color: var(--dsw-syntax-string);
+}
+
+.block :global(.token.number),
+.block :global(.token.constant),
+.block :global(.token.symbol) {
+  color: var(--dsw-syntax-number);
+}
+
+.block :global(.token.function),
+.block :global(.token.method) {
+  color: var(--dsw-syntax-function);
+}
+
+.block :global(.token.class-name),
+.block :global(.token.builtin),
+.block :global(.token.namespace) {
+  color: var(--dsw-syntax-class);
+}
+
+.block :global(.token.operator),
+.block :global(.token.entity),
+.block :global(.token.url) {
+  color: var(--dsw-syntax-operator);
+}
+
+.block :global(.token.punctuation) {
+  color: var(--dsw-syntax-punctuation);
+}
+
+.block :global(.token.tag),
+.block :global(.token.selector),
+.block :global(.token.deleted) {
+  color: var(--dsw-syntax-tag);
+}
+
+.block :global(.token.attr-name),
+.block :global(.token.attr-value),
+.block :global(.token.property),
+.block :global(.token.variable) {
+  color: var(--dsw-syntax-attribute);
+}
+
+.block :global(.token.bold),
+.block :global(.token.important) {
+  font-weight: 600;
+}
+
+.block :global(.token.italic) {
+  font-style: italic;
+}

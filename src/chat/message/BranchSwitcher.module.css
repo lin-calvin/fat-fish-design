@@ -1,0 +1,15 @@
+.switcher {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  gap: 2px;
+  height: 28px;
+}
+
+.count {
+  color: var(--dsw-alias-label-tertiary);
+  font: var(--dsw-font-s-strong-14);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+  user-select: none;
+}

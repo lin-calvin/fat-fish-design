@@ -1,0 +1,162 @@
+.thinking {
+  margin-bottom: 2px;
+}
+
+.toggle {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  box-sizing: border-box;
+  max-width: 100%;
+  height: 30px;
+  padding: 0 4px 0 0;
+  border: none;
+  border-radius: var(--dsw-radius-sm);
+  background: transparent;
+  color: var(--dsw-alias-label-secondary);
+  font: var(--dsw-font-markdown-base);
+  text-align: left;
+  cursor: pointer;
+  transition: color var(--ds-transition-duration) var(--ds-ease-in-out);
+}
+
+.toggle:hover {
+  color: var(--dsw-alias-label-primary);
+}
+
+.toggle:focus-visible {
+  outline: 2px solid var(--dsw-alias-brand-primary);
+  outline-offset: 1px;
+}
+
+.icon {
+  display: flex;
+  flex-shrink: 0;
+  color: var(--dsw-alias-brand-primary);
+}
+
+.done .icon {
+  color: var(--dsw-alias-label-tertiary);
+}
+
+.title {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* 正在思考：文字上跑一道微光，比转圈更安静 */
+.running .title {
+  color: transparent;
+  background: linear-gradient(
+      90deg,
+      var(--dsw-alias-label-secondary) 0%,
+      var(--dsw-alias-label-secondary) 40%,
+      var(--dsw-alias-label-caption) 50%,
+      var(--dsw-alias-label-secondary) 60%,
+      var(--dsw-alias-label-secondary) 100%
+    )
+    0 0 / 300% 100%;
+  background-clip: text;
+  animation: shimmer 2s ease-out infinite;
+}
+
+@keyframes shimmer {
+  from {
+    background-position: 100% 0;
+  }
+
+  to {
+    background-position: 0 0;
+  }
+}
+
+.chevron {
+  display: flex;
+  flex-shrink: 0;
+  color: var(--dsw-alias-label-tertiary);
+  transition: transform var(--ds-transition-duration) var(--ds-ease-in-out);
+}
+
+.chevronOpen {
+  transform: rotate(180deg);
+}
+
+/* 折叠态：不解析 markdown，只给一行预览 */
+.preview {
+  padding: 0 0 0 22px;
+  color: var(--dsw-alias-label-tertiary);
+  font: var(--dsw-font-markdown-small);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.body {
+  padding: 4px 0 6px 22px;
+}
+
+/* 思考正文用小一号的 markdown 排版；比通用 markdown 作用域多一层，稳定覆盖 */
+.body :global(.ds-markdown) {
+  color: var(--dsw-alias-label-secondary);
+  font: var(--dsw-font-markdown-small);
+}
+
+.body :global(.ds-markdown h1),
+.body :global(.ds-markdown h2),
+.body :global(.ds-markdown h3),
+.body :global(.ds-markdown h4),
+.body :global(.ds-markdown h5),
+.body :global(.ds-markdown h6) {
+  margin: 12px 0;
+  font: var(--dsw-font-markdown-small-strong);
+}
+
+.body :global(.ds-markdown p) {
+  margin: 12px 0;
+}
+
+.body :global(.ds-markdown ul),
+.body :global(.ds-markdown ol) {
+  margin: 12px 0;
+}
+
+.body :global(.ds-markdown blockquote) {
+  margin: 12px 0 0;
+}
+
+.body :global(.ds-markdown hr) {
+  margin: 28px 0;
+}
+
+.body :global(.ds-markdown code) {
+  font: var(--dsw-font-markdown-code-block);
+}
+
+.body :global(.ds-markdown th) {
+  font: var(--dsw-font-markdown-small-strong);
+}
+
+.body :global(.ds-markdown td) {
+  font: var(--dsw-font-markdown-small);
+}
+
+.body :global(.ds-markdown li > p) {
+  margin: 2px 0;
+}
+
+.body :global(.ds-markdown li:not(:first-child)) {
+  margin-top: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .running .title {
+    animation: none;
+    color: var(--dsw-alias-label-secondary);
+    background: none;
+  }
+
+  .chevron {
+    transition: none;
+  }
+}

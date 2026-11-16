@@ -1,0 +1,49 @@
+/* 高度 24px + --dsw-radius-md(12px) 正好是胶囊形，不需要写 999px 之类的字面值。 */
+.pill {
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  height: 24px;
+  padding: 0 10px;
+  border: 0;
+  border-radius: var(--dsw-radius-md);
+  font: var(--dsw-font-xs-13);
+  font-weight: 500;
+  color: var(--dsw-alias-label-secondary);
+  background: var(--dsw-alias-markdown-tag);
+  white-space: nowrap;
+  cursor: pointer;
+  user-select: none;
+  outline: none;
+  transition:
+    background-color var(--ds-transition-duration) var(--ds-ease-in-out),
+    color var(--ds-transition-duration) var(--ds-ease-in-out);
+}
+
+.pill:focus-visible {
+  outline: 2px solid var(--dsw-alias-brand-primary);
+  outline-offset: 2px;
+}
+
+.pill:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+@media (hover: hover) {
+  .pill:hover:not(:disabled) {
+    background: var(--dsw-alias-interactive-bg-hover);
+  }
+}
+
+.static {
+  cursor: default;
+}
+
+.active,
+.active:hover:not(:disabled) {
+  color: var(--dsw-alias-label-primary);
+  background: var(--dsw-alias-button-ghost-active-fill);
+  box-shadow: inset 0 0 0 1px var(--dsw-alias-button-ghost-active-border);
+}

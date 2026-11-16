@@ -1,0 +1,86 @@
+.anchor {
+  display: inline-flex;
+}
+
+.menu {
+  position: fixed;
+  z-index: var(--dsw-z-menu);
+  box-sizing: border-box;
+  min-width: 148px;
+  max-width: 280px;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: 4px;
+  border-radius: var(--dsw-radius-md);
+  background: var(--dsw-specific-menu);
+  box-shadow: var(--dsw-shadow-lv3);
+}
+
+.item {
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  padding: 7px 10px;
+  border: 0;
+  border-radius: var(--dsw-radius-sm);
+  font-family: var(--dsw-font-family);
+  font-size: var(--ds-font-size-m);
+  line-height: 22px;
+  font-weight: 400;
+  color: var(--dsw-alias-label-primary);
+  background: transparent;
+  text-align: left;
+  white-space: nowrap;
+  cursor: pointer;
+  user-select: none;
+  outline: none;
+}
+
+/* 菜单里用高亮代替 focus ring，键盘与鼠标看到的状态一致 */
+.item:hover,
+.item:focus-visible {
+  background: var(--dsw-alias-interactive-bg-hover);
+}
+
+.item[aria-disabled='true'] {
+  color: var(--dsw-alias-label-caption);
+  background: transparent;
+  cursor: default;
+}
+
+.icon {
+  display: inline-flex;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+  font-size: inherit;
+}
+
+.icon svg {
+  width: 100%;
+  height: 100%;
+}
+
+.itemLabel {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.danger {
+  color: var(--dsw-alias-state-error-primary);
+}
+
+.danger:hover,
+.danger:focus-visible {
+  background: var(--dsw-alias-interactive-bg-hover-danger);
+}
+
+.separator {
+  height: 1px;
+  margin: 4px 6px;
+  background: var(--dsw-alias-border-l2);
+}

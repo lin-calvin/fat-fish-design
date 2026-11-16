@@ -1,0 +1,80 @@
+.root {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+  /* 关掉 flex item 的 min-width:auto，否则宽表格/代码块会把整列撑出可视区 */
+  min-width: 0;
+  min-height: 0;
+}
+
+.scroller {
+  flex: 1 1 auto;
+  min-width: 0;
+  min-height: 0;
+  overflow-x: hidden;
+  overflow-y: auto;
+  /* 关掉浏览器滚动锚定，贴底计算才完全由闩锁决定。 */
+  overflow-anchor: none;
+  overscroll-behavior: contain;
+  scrollbar-width: thin;
+  scrollbar-color: var(--scroll-color) transparent;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  box-sizing: border-box;
+  width: 100%;
+  max-width: var(--message-list-max-width);
+  margin: 0 auto;
+  padding: 24px var(--message-list-padding-horizontal) 32px;
+}
+
+.empty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 40vh;
+  color: var(--dsw-alias-label-tertiary);
+  font-size: var(--ds-font-size-m);
+  text-align: center;
+}
+
+.jump {
+  position: absolute;
+  bottom: 16px;
+  left: 50%;
+  z-index: 5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  border: 1px solid var(--dsw-alias-border-l2);
+  border-radius: var(--dsw-radius-xl);
+  background-color: var(--dsw-alias-bg-layer-3);
+  color: var(--dsw-alias-label-secondary);
+  box-shadow: var(--dsw-shadow-lv2);
+  transform: translateX(-50%);
+  cursor: pointer;
+  transition: color var(--ds-transition-duration) var(--ds-ease-in-out);
+}
+
+.jump:hover {
+  color: var(--dsw-alias-label-primary);
+}
+
+.jump:focus-visible {
+  outline: 2px solid var(--dsw-alias-button-primary-fill);
+  outline-offset: 1px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .jump {
+    transition: none;
+  }
+}

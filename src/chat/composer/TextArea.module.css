@@ -1,0 +1,40 @@
+.textarea {
+  display: block;
+  box-sizing: border-box;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  border: none;
+  outline: none;
+  resize: none;
+  background: transparent;
+  color: var(--dsw-alias-label-primary);
+  caret-color: var(--dsw-alias-brand-text);
+  /* 14px/24px：行高是具体像素，1lh 才能稳定等于 24px */
+  font: var(--dsw-font-markdown-small);
+  font-variant-ligatures: no-contextual;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  /* 首选方案：高度由内容决定，1 行到 maxRows 行之间自适应 */
+  field-sizing: content;
+  min-block-size: 1lh;
+  max-block-size: calc(var(--max-rows, 8) * 1lh);
+}
+
+.textarea::placeholder {
+  color: var(--dsw-alias-label-caption);
+  user-select: none;
+}
+
+.textarea:disabled {
+  color: var(--dsw-alias-label-caption);
+  cursor: not-allowed;
+}
+
+/* 不支持 field-sizing 的浏览器交给 TextArea 里的 JS 兜底，这里解除 CSS 高度约束 */
+@supports not (field-sizing: content) {
+  .textarea {
+    min-block-size: 0;
+    max-block-size: none;
+  }
+}

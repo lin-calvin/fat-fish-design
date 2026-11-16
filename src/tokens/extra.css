@@ -1,0 +1,51 @@
+/* 官方/ harness 的设计平台里有、但 demo 版 theme.css 未包含的通用量：
+   圆角、阴影、层级。组件一律引用这些变量，不写字面值。 */
+body {
+  --dsw-radius-xs: 4px;
+  --dsw-radius-sm: 8px;
+  --dsw-radius-md: 12px;
+  --dsw-radius-lg: 16px;
+  --dsw-radius-xl: 20px;
+  --dsw-radius-panel: 28px;
+
+  --dsw-shadow-lv1: 0 2px 4px 0 rgba(0, 0, 0, 0.05);
+  --dsw-shadow-lv2: 0 4px 12px 0 rgba(0, 0, 0, 0.02), 0 2px 8px 0 rgba(0, 0, 0, 0.04);
+  --dsw-shadow-lv3: 0 0 1px 0 rgba(0, 0, 0, 0.2), 0 0 4px 0 rgba(0, 0, 0, 0.02), 0 12px 32px 0 rgba(0, 0, 0, 0.08);
+
+  --dsw-elevation-stroke: 0 0 0 0.5px var(--dsw-alias-border-l2);
+  --dsw-elevation-panel: var(--dsw-elevation-stroke), 0 3px 8px 0 rgba(0, 0, 0, 0.03), 0 0 16px 0 rgba(0, 0, 0, 0.02);
+
+  --dsw-z-tooltip: 40;
+  --dsw-z-menu: 50;
+  --dsw-z-modal: 60;
+  --dsw-z-toast: 70;
+}
+
+/* 语法高亮配色（Prism token）。只在这里出现色值，组件引用变量。 */
+body {
+  --dsw-syntax-plain: #24292f;
+  --dsw-syntax-comment: #6b7280;
+  --dsw-syntax-keyword: #a626a4;
+  --dsw-syntax-string: #087a3c;
+  --dsw-syntax-number: #b45309;
+  --dsw-syntax-function: #1d4ed8;
+  --dsw-syntax-class: #b45309;
+  --dsw-syntax-operator: #374151;
+  --dsw-syntax-punctuation: #4b5563;
+  --dsw-syntax-tag: #b91c1c;
+  --dsw-syntax-attribute: #b45309;
+}
+
+body[data-ds-dark-theme] {
+  --dsw-syntax-plain: #e6edf3;
+  --dsw-syntax-comment: #8b949e;
+  --dsw-syntax-keyword: #ff7b72;
+  --dsw-syntax-string: #a5d6ff;
+  --dsw-syntax-number: #79c0ff;
+  --dsw-syntax-function: #d2a8ff;
+  --dsw-syntax-class: #ffa657;
+  --dsw-syntax-operator: #c9d1d9;
+  --dsw-syntax-punctuation: #8b949e;
+  --dsw-syntax-tag: #7ee787;
+  --dsw-syntax-attribute: #79c0ff;
+}

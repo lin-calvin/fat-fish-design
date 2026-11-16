@@ -1,0 +1,270 @@
+.root {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  width: 100%;
+  overflow: hidden;
+  border: 1px solid var(--dsw-alias-border-l2-darkmode-thin);
+  border-radius: var(--dsw-radius-panel);
+  background: var(--dsw-specific-input-major);
+  box-shadow: var(--dsw-elevation-panel);
+  cursor: text;
+  transition: border-color var(--ds-transition-duration) var(--ds-ease-in-out);
+}
+
+.root:focus-within {
+  border-color: var(--dsw-alias-button-ghost-active-border);
+}
+
+.root.blocked {
+  cursor: not-allowed;
+}
+
+/* 提高一级选择器，覆盖 TextArea 自带的 padding: 0 */
+.root .input {
+  padding: 12px 16px 0;
+}
+
+/* 工具条：leading | 开关 | 动作 | trailing */
+.toolbar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px 12px;
+}
+
+.slot {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.toggles {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+}
+
+.toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  flex-shrink: 0;
+  height: var(--ds-control-height-s);
+  padding: 0 10px;
+  border: 1px solid var(--dsw-alias-border-l2);
+  /* 药丸形：半径由控件高度推出，不写死数值 */
+  border-radius: calc(var(--ds-control-height-s) / 2);
+  background: transparent;
+  color: var(--dsw-alias-label-secondary);
+  font: var(--dsw-font-xs-13);
+  white-space: nowrap;
+  cursor: pointer;
+  user-select: none;
+  transition:
+    background-color var(--ds-transition-duration) var(--ds-ease-in-out),
+    border-color var(--ds-transition-duration) var(--ds-ease-in-out),
+    color var(--ds-transition-duration) var(--ds-ease-in-out);
+}
+
+.toggleIcon {
+  display: flex;
+  flex-shrink: 0;
+}
+
+.toggleLabel {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.toggle:hover:not(:disabled) {
+  background: var(--dsw-alias-interactive-bg-hover);
+}
+
+.toggle:focus-visible {
+  outline: 2px solid var(--dsw-alias-brand-primary);
+  outline-offset: 2px;
+}
+
+.toggle:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.toggleOn {
+  background: var(--dsw-alias-button-ghost-active-fill);
+  border-color: var(--dsw-alias-button-ghost-active-border);
+  color: var(--dsw-alias-brand-text);
+}
+
+.toggleOn:hover:not(:disabled) {
+  background: var(--dsw-alias-button-ghost-active-hover);
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex-shrink: 0;
+  margin-left: auto;
+}
+
+.iconButton {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: var(--ds-control-height-m);
+  height: var(--ds-control-height-m);
+  padding: 0;
+  border: none;
+  border-radius: calc(var(--ds-control-height-m) / 2);
+  background: transparent;
+  color: var(--dsw-alias-label-secondary);
+  cursor: pointer;
+  transition: background-color var(--ds-transition-duration) var(--ds-ease-in-out);
+}
+
+.iconButton:hover {
+  background: var(--dsw-alias-interactive-bg-hover);
+}
+
+.iconButton:focus-visible {
+  outline: 2px solid var(--dsw-alias-brand-primary);
+  outline-offset: 2px;
+}
+
+.iconButton[aria-disabled='true'] {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.iconButton[aria-disabled='true']:hover {
+  background: transparent;
+}
+
+.recording {
+  color: var(--dsw-alias-state-error-primary);
+}
+
+/* 录音中的红点：只在这里脉冲，reduced-motion 下静止 */
+.dot {
+  position: absolute;
+  top: 7px;
+  right: 7px;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--dsw-alias-state-error-primary);
+  animation: dotPulse 1.2s var(--ds-ease-in-out) infinite;
+}
+
+@keyframes dotPulse {
+  0%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  50% {
+    opacity: 0.35;
+    transform: scale(0.7);
+  }
+}
+
+.send {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: var(--ds-control-height-m);
+  height: var(--ds-control-height-m);
+  margin-left: 4px;
+  padding: 0;
+  border: none;
+  border-radius: calc(var(--ds-control-height-m) / 2);
+  background: var(--dsw-alias-button-primary-fill);
+  color: var(--dsw-alias-label-primary-foreground);
+  cursor: pointer;
+  transition: background-color var(--ds-transition-duration) var(--ds-ease-in-out);
+}
+
+.send:hover:not([aria-disabled='true']) {
+  background: var(--dsw-alias-button-primary-hover);
+}
+
+.send:focus-visible {
+  outline: 2px solid var(--dsw-alias-brand-primary);
+  outline-offset: 2px;
+}
+
+.send[aria-disabled='true'] {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.stop {
+  background: var(--dsw-alias-button-contrast-fill);
+  color: var(--dsw-alias-label-primary-inverted);
+}
+
+.stop:hover {
+  background: var(--dsw-alias-button-contrast-fill);
+  opacity: 0.9;
+}
+
+/* 拖拽遮罩盖住整个输入区，不影响继续接收 dragover */
+.dropMask {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px;
+  border: 2px dashed var(--dsw-alias-button-ghost-active-border);
+  border-radius: inherit;
+  pointer-events: none;
+}
+
+.dropMask::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: var(--dsw-alias-bg-base);
+  opacity: 0.82;
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+}
+
+.dropText {
+  position: relative;
+  font: var(--dsw-font-s-strong-14);
+  color: var(--dsw-alias-brand-text);
+  text-align: center;
+}
+
+.blockedNote {
+  padding: 0 16px 12px;
+  font: var(--dsw-font-xs-13);
+  color: var(--dsw-alias-state-error-primary);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .root,
+  .toggle,
+  .iconButton,
+  .send {
+    transition: none;
+  }
+
+  .dot {
+    animation: none;
+  }
+}

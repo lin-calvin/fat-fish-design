@@ -1,0 +1,286 @@
+/**
+ * 借用 demo 的 .ds-markdown 排版，但每条规则都限定在组件根的 .markdown 之下，
+ * 不改动（也不依赖）全局的 .ds-markdown 规则。
+ * render.tsx 产出的是裸元素（p / h1..h6 / ul / ol / li / table / pre / code / blockquote / hr），
+ * 所以这里用元素选择器而不是 .ds-markdown-paragraph 之类的类名。
+ */
+
+.markdown :global(.ds-markdown) {
+  max-width: 100%;
+  font: var(--dsw-font-markdown-base);
+  color: var(--dsw-alias-label-primary);
+  word-break: break-word;
+}
+
+.markdown :global(.ds-markdown strong) {
+  font-weight: 600;
+}
+
+.markdown :global(.ds-markdown img) {
+  max-width: 100%;
+}
+
+/* 链接 */
+.markdown :global(.ds-markdown a) {
+  color: var(--dsw-alias-brand-text);
+  text-decoration: none;
+  transition: color var(--ds-transition-duration) var(--ds-ease-in-out);
+}
+
+.markdown :global(.ds-markdown a:hover) {
+  text-decoration: underline;
+}
+
+.markdown :global(.ds-markdown a:focus-visible) {
+  outline: 2px solid var(--dsw-alias-brand-text);
+  outline-offset: 2px;
+  border-radius: var(--dsw-radius-xs);
+}
+
+/* 标题 */
+.markdown :global(.ds-markdown h1) {
+  font: var(--dsw-font-markdown-h1);
+}
+
+.markdown :global(.ds-markdown h2) {
+  font: var(--dsw-font-markdown-h2);
+}
+
+.markdown :global(.ds-markdown h3) {
+  font: var(--dsw-font-markdown-h3);
+}
+
+.markdown :global(.ds-markdown h4) {
+  font: var(--dsw-font-markdown-h4);
+}
+
+.markdown :global(.ds-markdown h5),
+.markdown :global(.ds-markdown h6) {
+  font: var(--dsw-font-markdown-base-strong);
+}
+
+.markdown :global(.ds-markdown h1),
+.markdown :global(.ds-markdown h2),
+.markdown :global(.ds-markdown h3) {
+  margin: 32px 0 16px;
+}
+
+.markdown :global(.ds-markdown h4),
+.markdown :global(.ds-markdown h5),
+.markdown :global(.ds-markdown h6),
+.markdown :global(.ds-markdown p) {
+  margin: 16px 0;
+}
+
+.markdown :global(.ds-markdown h1 strong),
+.markdown :global(.ds-markdown h2 strong),
+.markdown :global(.ds-markdown h3 strong),
+.markdown :global(.ds-markdown h4 strong),
+.markdown :global(.ds-markdown h5 strong),
+.markdown :global(.ds-markdown h6 strong) {
+  font-weight: inherit;
+}
+
+/* 列表 */
+.markdown :global(.ds-markdown ul),
+.markdown :global(.ds-markdown ol) {
+  margin: 16px 0;
+  padding-left: 18px;
+}
+
+.markdown :global(.ds-markdown li:not(:first-child)) {
+  margin-top: 6px;
+}
+
+.markdown :global(.ds-markdown li::marker) {
+  color: var(--dsw-alias-label-secondary);
+}
+
+.markdown :global(.ds-markdown li > ul),
+.markdown :global(.ds-markdown li > ol) {
+  margin-top: 4px;
+}
+
+.markdown :global(.ds-markdown li > p) {
+  margin: 8px 0;
+}
+
+.markdown :global(.ds-markdown li > *:first-child) {
+  margin-top: 0;
+}
+
+.markdown :global(.ds-markdown li > *:last-child) {
+  margin-bottom: 0;
+}
+
+.markdown :global(.ds-markdown ul ol),
+.markdown :global(.ds-markdown ol ol) {
+  list-style-position: inside;
+  padding-left: 0;
+}
+
+.markdown :global(.ds-markdown ul ol li p),
+.markdown :global(.ds-markdown ol ol li p) {
+  display: inline;
+}
+
+/* 分隔线与引用 */
+.markdown :global(.ds-markdown hr) {
+  height: 1px;
+  margin: 32px 0;
+  border: none;
+  background: var(--dsw-alias-border-l2);
+}
+
+.markdown :global(.ds-markdown blockquote) {
+  margin: 16px 0 0;
+  padding-left: 14px;
+  border-left: 2px solid var(--dsw-alias-label-caption);
+}
+
+/* 表格 */
+.markdown :global(.ds-markdown table) {
+  width: max-content;
+  max-width: 100%;
+  margin: 16px 0;
+  border-collapse: collapse;
+}
+
+.markdown :global(.ds-markdown th) {
+  box-sizing: border-box;
+  min-width: 100px;
+  max-width: min(30vw, 320px);
+  padding: 10px 16px;
+  border-bottom: 1px solid var(--dsw-alias-border-l3);
+  font: var(--dsw-font-markdown-table-head);
+}
+
+.markdown :global(.ds-markdown td) {
+  box-sizing: border-box;
+  min-width: 100px;
+  max-width: min(30vw, 320px);
+  padding: 10px 16px;
+  border-bottom: 1px solid var(--dsw-alias-border-l2);
+  font: var(--dsw-font-markdown-table);
+}
+
+.markdown :global(.ds-markdown th:first-child),
+.markdown :global(.ds-markdown td:first-child) {
+  padding-left: 0;
+}
+
+.markdown :global(.ds-markdown td:last-child) {
+  padding-right: 0;
+}
+
+/* 代码 */
+.markdown :global(.ds-markdown pre) {
+  position: relative;
+  box-sizing: border-box;
+  margin: 16px 0;
+  padding: 16px;
+  overflow: auto;
+  border: none;
+  border-radius: var(--dsw-radius-md);
+  background: var(--dsw-alias-markdown-code-block);
+  font: var(--dsw-font-markdown-code-block);
+}
+
+.markdown :global(.ds-markdown pre code) {
+  display: inline;
+  padding: 0;
+  background: none;
+  font: var(--dsw-font-markdown-code-block);
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.markdown :global(.ds-markdown code) {
+  display: inline-flex;
+  align-items: center;
+  box-sizing: border-box;
+  padding: 0 5px;
+  border-radius: var(--dsw-radius-xs);
+  background-color: var(--dsw-alias-markdown-inline-code);
+  font: var(--dsw-font-markdown-code);
+  font-size: 0.875em;
+}
+
+.markdown :global(.ds-markdown h1 code),
+.markdown :global(.ds-markdown h2 code),
+.markdown :global(.ds-markdown h3 code),
+.markdown :global(.ds-markdown h4 code),
+.markdown :global(.ds-markdown h5 code),
+.markdown :global(.ds-markdown h6 code) {
+  font: inherit;
+  font-family: var(--ds-font-family-code);
+}
+
+.markdown :global(.ds-markdown .lang) {
+  position: sticky;
+  top: 0;
+  float: right;
+  margin-left: 12px;
+  color: var(--dsw-alias-label-tertiary);
+  font: var(--dsw-font-xs-13);
+}
+
+/* 数学（PoC 里是等宽文本） */
+.markdown :global(.ds-markdown .math) {
+  color: var(--dsw-alias-brand-text);
+  font-family: var(--ds-font-family-code);
+}
+
+.markdown :global(.ds-markdown .math-block) {
+  margin: 16px 0;
+  padding: 8px 12px;
+  overflow-x: auto;
+  border-radius: var(--dsw-radius-sm);
+  background: var(--dsw-alias-markdown-code-block);
+  color: var(--dsw-alias-brand-text);
+  font-family: var(--ds-font-family-code);
+}
+
+.markdown :global(.ds-markdown .image-ref) {
+  color: var(--dsw-alias-label-tertiary);
+}
+
+/* 流式光标（MarkdownText 内部输出全局类名 .caret） */
+.markdown :global(.ds-markdown .caret) {
+  display: inline-block;
+  width: 7px;
+  height: 15px;
+  margin-left: 2px;
+  vertical-align: -2px;
+  background: var(--dsw-alias-brand-primary);
+  animation: caretBlink 1s steps(2, start) infinite;
+}
+
+/* 首末块去掉外边距，避免和相邻 block 叠出空隙 */
+.markdown :global(.ds-markdown > *:first-child) {
+  margin-top: 0;
+}
+
+.markdown :global(.ds-markdown > *:last-child) {
+  margin-bottom: 0;
+}
+
+.markdown :global(.ds-markdown p:first-child) {
+  margin-top: 0;
+}
+
+.markdown :global(.ds-markdown p:last-child) {
+  margin-bottom: 0;
+}
+
+@keyframes caretBlink {
+  to {
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .markdown :global(.ds-markdown .caret) {
+    animation: none;
+  }
+}

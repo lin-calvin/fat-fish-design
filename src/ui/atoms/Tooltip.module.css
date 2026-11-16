@@ -1,0 +1,19 @@
+/* 触发元素外包一层 display: contents，不参与布局，只用来挂事件 */
+.trigger {
+  display: contents;
+}
+
+.tooltip {
+  position: fixed;
+  z-index: var(--dsw-z-tooltip);
+  box-sizing: border-box;
+  max-width: 320px;
+  padding: 4px 8px;
+  border-radius: var(--dsw-radius-sm);
+  font: var(--dsw-font-xs-13);
+  color: var(--dsw-alias-label-primary-foreground);
+  background: var(--dsw-alias-tooltip-bg);
+  box-shadow: var(--dsw-shadow-lv2);
+  pointer-events: none;
+  overflow-wrap: anywhere;
+}
