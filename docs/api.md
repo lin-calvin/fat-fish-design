@@ -169,7 +169,7 @@ const labels = {
 | `Tooltip` | `content`、`children: ReactElement`、`placement?: 'top'\|'bottom'`（默认 `top`）、`delayMs?`（默认 120） |
 | `Menu` | `items: MenuItemSpec[]`、`onSelect(id)`、`children: ReactElement`、`placement?: 'bottom-start'\|'bottom-end'`、`label` |
 | `Modal` | `open`、`title`、`children?`、`footer?`、`onClose`、`size?: 'sm'\|'md'\|'lg'`、`closeLabel` |
-| `Select` | `<T extends string>`：`value`、`options: {value,label}[]`、`onChange(next: T)`、`label`、`placeholder?` |
+| `Select` | `<T extends string>`：`value`、`options: {value,label}[]`、`onChange(next: T)`、`label`、`placeholder?`、`size?: 'sm'\|'md'`（`sm` 用于输入区工具条） |
 
 ```tsx
 <Menu
@@ -266,7 +266,16 @@ Composer: {
   onOpenAttachment?(attachment: Attachment)
   speech?: SpeechPort
   labels: ComposerLabels
-  slots?: { leading?: ReactNode; trailing?: ReactNode }
+  slots?: {
+    leading?: ReactNode      // 工具条最左
+    model?: ReactNode        // 模型选择座位
+    permission?: ReactNode   // 权限模式座位
+    plan?: ReactNode         // 计划模式座位
+    activity?: ReactNode     // 右侧活动指示
+    trailing?: ReactNode     // 发送键之后
+    overlay?: ReactNode      // 浮层座位：@ / / 触发菜单挂这里（绝对定位在输入框上方）
+    dock?: ReactNode         // 输入区下方整块（队列提示、快捷键提示）
+  }
 }
 ```
 
@@ -351,6 +360,56 @@ Sider: {
 ```
 
 按「今天 / 昨天 / 更早」分组（组内 `updatedAt` 倒序），活跃项 `aria-current="page"`；hover 或键盘聚焦显示「更多」，内含重命名（内联输入）与删除（二次确认，不依赖 Modal）；`collapsed` 时收成 60px 图标条。
+
+### 4.6b 输入区座位（`src/chat/seats`）
+
+面向 agent 场景的三个座位组件。它们只负责「当前值 + 交互」，选项、文案、语义全部由调用方给：
+
+```ts
+PermissionSelect: {
+  value: string
+  options: readonly { id: string; label: string; icon?: ReactNode }[]
+  onChange(id: string): void
+  label: string                      // 控件与菜单的无障碍名称
+  icon?: ReactNode                   // 默认锁图标
+  disabled?: boolean
+  placement?: 'bottom-start' | 'bottom-end'
+}
+
+PlanToggle: { label: string; active: boolean; onToggle(next: boolean): void; icon?: ReactNode; disabled?: boolean }
+
+ActivityIndicator: {
+  status: 'idle' | 'running' | 'error'
+  label?: string                     // idle 且无 label 时整个组件不渲染
+  detail?: string                    // 例如 "12s"、"3 个工具调用"
+  icon?: ReactNode
+}
+```
+
+```tsx
+<Composer
+  …
+  slots={{
+    model: <Select label="模型" size="sm" value={model} options={models} onChange={setModel} />,
+    permission: (
+      <PermissionSelect
+        label="权限模式"
+        value={permission}
+        options={[
+          { id: 'read', label: '只读' },
+          { id: 'workspace', label: '工作区可写' },
+          { id: 'full', label: '完全访问' },
+        ]}
+        onChange={setPermission}
+      />
+    ),
+    plan: <PlanToggle label="计划模式" active={plan} onToggle={setPlan} />,
+    activity: <ActivityIndicator status={status === 'streaming' ? 'running' : 'idle'} label={status === 'streaming' ? '生成中' : undefined} />,
+  }}
+/>
+```
+
+座位本身不是状态：`value` / `active` 由调用方持有，组件只在交互时回调。库不预设“只读/可写”这类语义，也不认识 agent 的权限模型。
 
 ### 4.7 Markdown（`src/markdown`）
 

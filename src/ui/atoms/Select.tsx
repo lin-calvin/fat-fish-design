@@ -19,6 +19,8 @@ export type SelectProps<T extends string> = {
   /** 触发按钮与列表框的无障碍名称 */
   label: string
   placeholder?: string
+  /** 触发器尺寸：md = 36px（表单默认），sm = 28px（塞进输入区工具条） */
+  size?: 'sm' | 'md'
 }
 
 const ChevronIcon = () => (
@@ -55,6 +57,7 @@ export const Select = <T extends string>({
   onChange,
   label,
   placeholder,
+  size = 'md',
 }: SelectProps<T>) => {
   const [open, setOpen] = useState(false)
   const listId = useId()
@@ -157,7 +160,7 @@ export const Select = <T extends string>({
       <button
         ref={anchorRef}
         type="button"
-        className={styles.trigger}
+        className={clsx(styles.trigger, size === 'sm' && styles.sm)}
         aria-label={label}
         aria-haspopup="listbox"
         aria-expanded={open}

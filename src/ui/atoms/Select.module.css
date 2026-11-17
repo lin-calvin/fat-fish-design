@@ -27,6 +27,13 @@
   }
 }
 
+.sm {
+  height: var(--ds-control-height-s);
+  min-width: 0;
+  padding: 0 8px;
+  font-size: 12px;
+}
+
 .trigger:focus-visible {
   outline: 2px solid var(--dsw-alias-brand-primary);
   outline-offset: 2px;

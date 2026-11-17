@@ -119,6 +119,7 @@ paint
 | 输入 | `Composer` `PromptInput` |
 | 列表 | `MessageList` |
 | 侧栏 | `Sider` `SessionItem` |
+| 输入区座位 | `PermissionSelect` `PlanToggle` `ActivityIndicator` |
 | Markdown | `MarkdownText` |
 
 完整签名、行为与常见坑见 [`docs/api.md`](docs/api.md)。

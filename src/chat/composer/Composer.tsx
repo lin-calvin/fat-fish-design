@@ -40,7 +40,24 @@ export interface ComposerProps {
   onOpenAttachment?: (attachment: Attachment) => void
   speech?: SpeechPort
   labels: ComposerLabels
-  slots?: { leading?: ReactNode; trailing?: ReactNode }
+  slots?: {
+    /** 工具条最左（附件按钮之前的位置留给它） */
+    readonly leading?: ReactNode
+    /** 模型选择座位 */
+    readonly model?: ReactNode
+    /** 权限模式座位 */
+    readonly permission?: ReactNode
+    /** 计划模式座位 */
+    readonly plan?: ReactNode
+    /** 右侧活动指示（运行中、用量） */
+    readonly activity?: ReactNode
+    /** 发送键之后 */
+    readonly trailing?: ReactNode
+    /** 浮层座位：@ / / 等触发菜单挂这里，绝对定位在输入框上方 */
+    readonly overlay?: ReactNode
+    /** 输入区下方的整块区域（队列提示、快捷键提示） */
+    readonly dock?: ReactNode
+  }
 }
 
 /** 超过这个行数后输入框内部滚动 */
@@ -111,6 +128,8 @@ export const Composer = ({
   const voiceVisible = features?.voice !== false && speech !== undefined
 
   return (
+    <div className={styles.frame}>
+      {slots?.overlay !== undefined ? <div className={styles.overlay}>{slots.overlay}</div> : null}
     <div
       className={clsx(styles.root, blocked && styles.blocked)}
       style={{ '--max-rows': String(MAX_ROWS) } as CSSProperties}
@@ -158,18 +177,25 @@ export const Composer = ({
       <div className={styles.toolbar}>
         {slots?.leading ? <div className={styles.slot}>{slots.leading}</div> : null}
 
-        <div className={styles.toggles}>
-          {(toggles ?? []).map(toggle => (
-            <Toggle
-              key={toggle.id}
-              label={toggle.label}
-              checked={toggle.active}
-              disabled={blocked || toggle.disabled === true}
-              icon={toggle.icon}
-              onChange={toggle.onToggle}
-            />
-          ))}
+        <div className={styles.left}>
+          <div className={styles.toggles}>
+            {(toggles ?? []).map(toggle => (
+              <Toggle
+                key={toggle.id}
+                label={toggle.label}
+                checked={toggle.active}
+                disabled={blocked || toggle.disabled === true}
+                icon={toggle.icon}
+                onChange={toggle.onToggle}
+              />
+            ))}
+          </div>
+          {slots?.model !== undefined ? <div className={styles.slot}>{slots.model}</div> : null}
+          {slots?.permission !== undefined ? <div className={styles.slot}>{slots.permission}</div> : null}
+          {slots?.plan !== undefined ? <div className={styles.slot}>{slots.plan}</div> : null}
         </div>
+
+        {slots?.activity !== undefined ? <div className={styles.slot}>{slots.activity}</div> : null}
 
         <div className={styles.actions}>
           {voiceVisible ? (
@@ -259,6 +285,8 @@ export const Composer = ({
           {blockedReason ?? labels.blocked}
         </div>
       ) : null}
+    </div>
+      {slots?.dock !== undefined ? <div className={styles.dock}>{slots.dock}</div> : null}
     </div>
   )
 }

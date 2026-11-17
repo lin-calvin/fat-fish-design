@@ -1,8 +1,9 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { Composer, SearchIcon, ThinkIcon, type ComposerToggle } from '../chat/composer'
+import { ActivityIndicator, PermissionSelect, PlanToggle } from '../chat/seats'
 import { MessageList } from '../chat/list'
 import { Sider } from '../chat/sider'
-import { Button, Modal, Switch } from '../ui/atoms'
+import { Button, Modal, Select, Switch } from '../ui/atoms'
 import { EmptyState } from '../ui/empty'
 import { ToastProvider, useToast } from '../ui/toast'
 import { zh } from '../chat-protocol/labels.zh'
@@ -21,6 +22,14 @@ import { createTransport, type ChatEvent, type ChatTransport } from './transport
 import css from './chat-demo.module.css'
 
 /** 假服务端：每 8ms 一个 token */
+const MODEL_OPTIONS = ['deepseek-flash', 'deepseek-v4-pro'] as const
+
+const PERMISSION_OPTIONS = [
+  { id: 'read', label: '只读' },
+  { id: 'workspace', label: '工作区可写' },
+  { id: 'full', label: '完全访问' },
+] as const
+
 function fakeTransport(): ChatTransport {
   let aborted = false
   return {
@@ -76,6 +85,8 @@ export function ChatDemo() {
   const [dark, setDark] = useState(false)
   const [follow, setFollow] = useState(0)
   const [settings, setSettings] = useState<AppSettings>(() => loadSettings())
+  const [permission, setPermission] = useState('workspace')
+  const [plan, setPlan] = useState(false)
   const [settingsOpen, setSettingsOpen] = useState(false)
   const transportRef = useRef<ChatTransport | null>(null)
   const stoppedRef = useRef(false)
@@ -377,6 +388,36 @@ export function ChatDemo() {
             blockedReason="请先在设置里填写 API Key，或切回演示模式"
             toggles={toggles}
             features={{ voice: true }}
+            slots={{
+              model: (
+                <Select
+                  label="模型"
+                  size="sm"
+                  value={settings.model}
+                  options={MODEL_OPTIONS.map(model => ({ value: model, label: model }))}
+                  onChange={model => {
+                    const next = { ...settings, model }
+                    setSettings(next)
+                    saveSettings(next)
+                  }}
+                />
+              ),
+              permission: (
+                <PermissionSelect
+                  label="权限模式"
+                  value={permission}
+                  options={PERMISSION_OPTIONS}
+                  onChange={setPermission}
+                />
+              ),
+              plan: <PlanToggle label="计划模式" active={plan} onToggle={setPlan} />,
+              activity: (
+                <ActivityIndicator
+                  status={status === 'streaming' ? 'running' : 'idle'}
+                  label={status === 'streaming' ? '生成中' : undefined}
+                />
+              ),
+            }}
             labels={labels.composer}
           />
         </div>

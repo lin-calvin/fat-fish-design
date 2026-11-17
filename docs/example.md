@@ -179,3 +179,9 @@ npx tsc --noEmit                                   # 含 examples/ 两个文件
 npx vite build                                     # 应用产物
 npx vite --port 5499                               # 集成示例（?poc 是 markdown 基准页）
 ```
+
+## 5. 相关示例
+
+- `examples/minimal.tsx`：静态渲染
+- `examples/full.tsx`：侧栏 + 消息流 + 输入区 + 提示 + 假服务端
+- `examples/agent-seats.tsx`：输入区座位（模型 / 权限 / 计划 / 活动指示）

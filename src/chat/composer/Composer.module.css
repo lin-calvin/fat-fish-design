@@ -1,3 +1,25 @@
+.frame {
+  position: relative;
+  width: 100%;
+}
+
+.overlay {
+  position: absolute;
+  inset-inline: 0;
+  bottom: calc(100% + 8px);
+  z-index: 20;
+  /* 浮层本身不挡点击，只有里面的内容可交互 */
+  pointer-events: none;
+}
+
+.overlay > * {
+  pointer-events: auto;
+}
+
+.dock {
+  margin-top: 8px;
+}
+
 .root {
   position: relative;
   display: flex;
@@ -40,11 +62,18 @@
   flex-shrink: 0;
 }
 
-.toggles {
+.left {
   display: flex;
   align-items: center;
   gap: 8px;
   flex: 1;
+  min-width: 0;
+}
+
+.toggles {
+  display: flex;
+  align-items: center;
+  gap: 8px;
   min-width: 0;
   overflow: hidden;
 }
