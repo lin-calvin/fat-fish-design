@@ -64,10 +64,12 @@ export interface SessionSummary {
   readonly pinned?: boolean
 }
 
+/**
+ * 输入区的受控值。业务开关（深度思考、联网搜索…）不在这里：
+ * 它们由调用方持有，通过 `Composer` 的 `toggles` 传入 label + 状态 + 回调。
+ */
 export interface ComposerValue {
   readonly text: string
-  readonly thinking: boolean
-  readonly search: boolean
   readonly attachments: readonly Attachment[]
 }
 
@@ -90,7 +92,5 @@ export interface ChatUiPorts {
 
 export const emptyComposerValue: ComposerValue = {
   text: '',
-  thinking: false,
-  search: false,
   attachments: [],
 }

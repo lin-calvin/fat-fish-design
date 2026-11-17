@@ -67,7 +67,7 @@ src/
     empty/          EmptyState
   chat/
     message/        MessageItem / ThinkingBlock / BranchSwitcher
-    composer/       PromptInput / Composer（IME、自适应高度、拖拽、粘贴、附件、语音）
+    composer/       PromptInput / Composer（IME、自适应高度、拖拽、粘贴、附件、语音、自定义开关）
     list/           MessageList（滚动闩锁 + followSignal）
     sider/          Sider / SessionItem（分组、重命名、删除确认）
   markdown/         MarkdownText / incremental / render / CodeBlock / highlight

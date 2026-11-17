@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
-import { Composer } from '../chat/composer'
+import { Composer, SearchIcon, ThinkIcon, type ComposerToggle } from '../chat/composer'
 import { MessageList } from '../chat/list'
 import { Sider } from '../chat/sider'
 import { Button, Modal, Switch } from '../ui/atoms'
@@ -70,6 +70,8 @@ export function ChatDemo() {
   const [collapsed, setCollapsed] = useState(false)
   const [threads, setThreads] = useState<Record<string, readonly Message[]>>(() => ({ ...seedThreads }))
   const [drafts, setDrafts] = useState<Record<string, ComposerValue>>({})
+  /** 业务开关属于调用方；组件只负责渲染 label + 回调 */
+  const [flags, setFlags] = useState<Record<string, { thinking: boolean; search: boolean }>>({})
   const [status, setStatus] = useState<'idle' | 'streaming' | 'blocked'>('idle')
   const [dark, setDark] = useState(false)
   const [follow, setFollow] = useState(0)
@@ -80,6 +82,7 @@ export function ChatDemo() {
 
   const messages = threads[activeId] ?? []
   const draft = drafts[activeId] ?? emptyComposerValue
+  const active = flags[activeId] ?? { thinking: false, search: false }
   const canUseRealApi = settings.useRealApi && settings.apiKey.trim() !== ''
 
   useEffect(() => () => transportRef.current?.abort(), [])
@@ -96,6 +99,30 @@ export function ChatDemo() {
   const setDraft = useCallback((next: ComposerValue) => {
     setDrafts(current => ({ ...current, [activeId]: next }))
   }, [activeId])
+
+  const setFlag = useCallback((key: 'thinking' | 'search', next: boolean) => {
+    setFlags(current => {
+      const base = current[activeId] ?? { thinking: false, search: false }
+      return { ...current, [activeId]: { ...base, [key]: next } }
+    })
+  }, [activeId])
+
+  const toggles = useMemo<ComposerToggle[]>(() => [
+    {
+      id: 'thinking',
+      label: labels.composer.thinking,
+      icon: <ThinkIcon />,
+      active: active.thinking,
+      onToggle: next => setFlag('thinking', next),
+    },
+    {
+      id: 'search',
+      label: labels.composer.search,
+      icon: <SearchIcon />,
+      active: active.search,
+      onToggle: next => setFlag('search', next),
+    },
+  ], [active.search, active.thinking, labels.composer.search, labels.composer.thinking, setFlag])
 
   const patchMessage = useCallback((sessionId: string, messageId: string, patch: (message: Message) => Message) => {
     setThreads(current => ({
@@ -229,13 +256,13 @@ export function ChatDemo() {
       assistantId,
       events: transport.send({
         text,
-        thinking: draft.thinking,
-        search: draft.search,
+        thinking: active.thinking,
+        search: active.search,
         history,
       }) as AsyncGenerator<ChatEvent>,
-      search: draft.search,
+      search: active.search,
     })
-  }, [activeId, canUseRealApi, draft, messages, pump, settings.apiKey, settings.model, status])
+  }, [active.search, active.thinking, activeId, canUseRealApi, draft, messages, pump, settings.apiKey, settings.model, status])
 
   const stop = useCallback(() => {
     stoppedRef.current = true
@@ -266,10 +293,10 @@ export function ChatDemo() {
     await pump({
       sessionId: activeId,
       assistantId: message.id,
-      events: transport.send({ text, thinking: draft.thinking, search: draft.search }) as AsyncGenerator<ChatEvent>,
-      search: draft.search,
+      events: transport.send({ text, thinking: active.thinking, search: active.search }) as AsyncGenerator<ChatEvent>,
+      search: active.search,
     })
-  }, [activeId, canUseRealApi, draft.search, draft.thinking, messages, patchMessage, pump, settings.apiKey, settings.model, status])
+  }, [active.search, active.thinking, activeId, canUseRealApi, messages, patchMessage, pump, settings.apiKey, settings.model, status])
 
   const removeSession = useCallback((id: string) => {
     setSessions(current => current.filter(session => session.id !== id))
@@ -348,7 +375,8 @@ export function ChatDemo() {
             onStop={stop}
             status={status}
             blockedReason="请先在设置里填写 API Key，或切回演示模式"
-            features={{ thinking: true, search: true, voice: true }}
+            toggles={toggles}
+            features={{ voice: true }}
             labels={labels.composer}
           />
         </div>

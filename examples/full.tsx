@@ -50,6 +50,7 @@ function Chat() {
   const [threads, setThreads] = useState<Record<string, readonly Message[]>>({})
   const [drafts, setDrafts] = useState<Record<string, ComposerValue>>({})
   const [status, setStatus] = useState<'idle' | 'streaming'>('idle')
+  const [thinking, setThinking] = useState(false)
   const [follow, setFollow] = useState(0)
   const stopped = useRef(false)
 
@@ -163,7 +164,9 @@ function Chat() {
             onSubmit={() => { void send() }}
             onStop={stop}
             status={status}
-            features={{ thinking: true, search: true }}
+            toggles={[
+              { id: 'thinking', label: zh.composer.thinking, active: thinking, onToggle: setThinking },
+            ]}
             labels={zh.composer}
           />
         </div>

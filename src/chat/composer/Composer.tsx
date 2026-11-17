@@ -4,10 +4,25 @@ import type { ComposerLabels } from '../../chat-protocol/labels'
 import type { Attachment, ComposerValue, SpeechPort } from '../../chat-protocol/types'
 import { AttachmentTray } from './AttachmentTray'
 import styles from './Composer.module.css'
-import { IconMic, IconPaperclip, IconSearch, IconSend, IconStop, IconThink } from './icons'
+import { IconMic, IconPaperclip, IconSend, IconStop } from './icons'
 import { TextArea } from './TextArea'
 import { useFileDrop } from './useFileDrop'
 import { useSpeech } from './useSpeech'
+
+/**
+ * 工具条上的一个开关。库不预设任何业务语义：
+ * 想放“深度思考”“智能搜索”还是“联网”“代码解释器”，都由调用方给 label + 状态 + 回调。
+ */
+export interface ComposerToggle {
+  /** 供 React key 与调试使用 */
+  readonly id: string
+  /** 可见文案，同时作为无障碍名称 */
+  readonly label: string
+  readonly icon?: ReactNode
+  readonly active: boolean
+  readonly disabled?: boolean
+  readonly onToggle: (next: boolean) => void
+}
 
 export interface ComposerProps {
   value: ComposerValue
@@ -16,7 +31,9 @@ export interface ComposerProps {
   onStop?: () => void
   status: 'idle' | 'streaming' | 'blocked'
   blockedReason?: string
-  features?: { thinking?: boolean; search?: boolean; voice?: boolean }
+  /** 工具条左侧的开关，按传入顺序渲染；不传就不显示 */
+  toggles?: readonly ComposerToggle[]
+  features?: { voice?: boolean }
   onPickFiles?: (files: File[]) => void
   onRemoveAttachment?: (id: string) => void
   onRetryAttachment?: (id: string) => void
@@ -30,8 +47,9 @@ export interface ComposerProps {
 const MAX_ROWS = 8
 
 /**
- * 完整输入区：附件条 + 文本框 + 深度思考 / 智能搜索 + 语音 + 发送 / 停止。
- * 纯受控：文本、开关、附件都来自 value，内部只有焦点、拖拽、录音、附件展开这类视图状态。
+ * 完整输入区：附件条 + 文本框 + 自定义开关 + 语音 + 上传 + 发送 / 停止。
+ * 纯受控：文本与附件来自 value，开关状态由调用方通过 `toggles` 注入并回调；
+ * 内部只有焦点、拖拽、录音、附件展开这类视图状态。
  */
 export const Composer = ({
   value,
@@ -40,6 +58,7 @@ export const Composer = ({
   onStop,
   status,
   blockedReason,
+  toggles,
   features,
   onPickFiles,
   onRemoveAttachment,
@@ -88,12 +107,8 @@ export const Composer = ({
   const drop = useFileDrop(onPickFiles)
 
   const setText = (next: string) => onChange({ ...value, text: next })
-  const setFlag = (key: 'thinking' | 'search', next: boolean) =>
-    onChange({ ...value, [key]: next })
 
   const voiceVisible = features?.voice !== false && speech !== undefined
-  const thinkingVisible = features?.thinking !== false
-  const searchVisible = features?.search !== false
 
   return (
     <div
@@ -144,24 +159,16 @@ export const Composer = ({
         {slots?.leading ? <div className={styles.slot}>{slots.leading}</div> : null}
 
         <div className={styles.toggles}>
-          {thinkingVisible ? (
+          {(toggles ?? []).map(toggle => (
             <Toggle
-              label={labels.thinking}
-              checked={value.thinking}
-              disabled={blocked}
-              icon={<IconThink />}
-              onChange={(next) => setFlag('thinking', next)}
+              key={toggle.id}
+              label={toggle.label}
+              checked={toggle.active}
+              disabled={blocked || toggle.disabled === true}
+              icon={toggle.icon}
+              onChange={toggle.onToggle}
             />
-          ) : null}
-          {searchVisible ? (
-            <Toggle
-              label={labels.search}
-              checked={value.search}
-              disabled={blocked}
-              icon={<IconSearch />}
-              onChange={(next) => setFlag('search', next)}
-            />
-          ) : null}
+          ))}
         </div>
 
         <div className={styles.actions}>
@@ -256,7 +263,7 @@ export const Composer = ({
   )
 }
 
-/** 深度思考 / 智能搜索开关：role=switch，激活态用 ghost-active token */
+/** 工具条开关：role=switch，激活态用 ghost-active token；语义完全由调用方给 */
 const Toggle = ({
   label,
   checked,
@@ -267,7 +274,7 @@ const Toggle = ({
   label: string
   checked: boolean
   disabled: boolean
-  icon: ReactNode
+  icon?: ReactNode
   onChange: (next: boolean) => void
 }) => (
   <button
@@ -279,7 +286,7 @@ const Toggle = ({
     disabled={disabled}
     onClick={() => onChange(!checked)}
   >
-    <span className={styles.toggleIcon}>{icon}</span>
+    {icon !== undefined ? <span className={styles.toggleIcon}>{icon}</span> : null}
     <span className={styles.toggleLabel}>{label}</span>
   </button>
 )

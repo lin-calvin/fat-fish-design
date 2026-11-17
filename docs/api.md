@@ -94,8 +94,6 @@ interface SessionSummary { id: string; title: string; updatedAt: number; pinned?
 
 interface ComposerValue {
   text: string
-  thinking: boolean
-  search: boolean
   attachments: readonly Attachment[]
 }
 
@@ -132,6 +130,7 @@ interface UiLabels {
   message: { user; assistant; regenerate; continue; edit; stop; stopped; failed;
              thinking; thinkingFor(seconds); tool; citations;
              branch(current, total); previousBranch; nextBranch; scrollToBottom }
+  // thinking / search 只是给调用方拼 toggles 用的文案，组件本身不认识它们
   composer: { placeholder; send; stop; thinking; search; attach; voice; voiceStop;
               blocked; removeAttachment; uploadFailed; retryUpload; dropHere }
   sider: { newChat; rename; delete; deleteTitle; deleteDescription; empty;
@@ -259,7 +258,8 @@ Composer: {
   onStop?(): void
   status: 'idle' | 'streaming' | 'blocked'
   blockedReason?: string
-  features?: { thinking?: boolean; search?: boolean; voice?: boolean }  // 缺省都显示
+  toggles?: readonly ComposerToggle[]     // 工具条开关，按顺序渲染；不传就没有
+  features?: { voice?: boolean }          // voice 缺省显示
   onPickFiles?(files: File[])
   onRemoveAttachment?(id: string)
   onRetryAttachment?(id: string)
@@ -277,6 +277,37 @@ Composer: {
 - 拖拽用 depth 计数（不是布尔），只接受 `Files`；粘贴文件走 `onPickFiles`。
 - `status === 'streaming'` 时发送键变停止键；`blocked` 时输入禁用并显示 `blockedReason ?? labels.blocked`。
 - `features.voice !== false && speech` 才渲染麦克风。
+- 工具条开关由调用方定义（不只是“深度思考/智能搜索”）：
+
+```ts
+interface ComposerToggle {
+  id: string
+  label: string            // 可见文案 + 无障碍名称
+  icon?: ReactNode
+  active: boolean
+  disabled?: boolean
+  onToggle: (next: boolean) => void
+}
+```
+
+```tsx
+const [thinking, setThinking] = useState(false)
+const [search, setSearch] = useState(false)
+
+<Composer
+  value={draft}
+  onChange={setDraft}
+  onSubmit={send}
+  status={status}
+  labels={labels.composer}
+  toggles={[
+    { id: 'thinking', label: labels.composer.thinking, icon: <ThinkIcon />, active: thinking, onToggle: setThinking },
+    { id: 'search', label: labels.composer.search, icon: <SearchIcon />, active: search, onToggle: setSearch },
+  ]}
+/>
+```
+
+`ThinkIcon` / `SearchIcon` 是可选的现成图标，也可以不传 `icon`。开关状态不属于 `ComposerValue`——它们是业务状态，留在调用方。
 - 附件三态：`uploading`（进度条）/ `error`（重试 + 移除）/ `ready`（移除）。
 
 `PromptInput` 是同一个文本框的独立版本（`value / onChange / onSubmit / placeholder / disabled / autoFocus / label / maxRows`），用于搜索框、内联改名等单行场景。
